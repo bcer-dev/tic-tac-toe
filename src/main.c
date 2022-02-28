@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #define X 0
-#define Y 1
+#define O 1
 
 void print_grid();
 void swap_player();
@@ -25,9 +25,10 @@ int main()
 	{
 		int row, column;
 
+		printf("\n*****************************************\n\n");
 		print_grid();
-		printf("Player: %c\nPlease enter a row and column: ", CURRENT_PLAYER == X ? 'X' : 'Y');
-		
+		printf("\nPlayer: %c\nPlease enter a row and column: ", CURRENT_PLAYER == X ? 'X' : 'O');
+
 		if (scanf("%i%i", &row, &column) < 2)
 			exit(1);
 
@@ -41,7 +42,7 @@ int main()
 		}
 		else
 		{
-			GRID[row - 1][column - 1] = CURRENT_PLAYER == X ? 'X' : 'Y';
+			GRID[row - 1][column - 1] = CURRENT_PLAYER == X ? 'X' : 'O';
 			swap_player();
 		}
 	}
@@ -65,5 +66,7 @@ void print_grid()
 // Switch between X and O
 void swap_player()
 {
-	CURRENT_PLAYER = CURRENT_PLAYER == X ? Y : X;
+	CURRENT_PLAYER = CURRENT_PLAYER == X ? O : X;
 }
+
+// TODO: Add the ability to check for, and determine the winner
