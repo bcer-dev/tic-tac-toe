@@ -11,6 +11,7 @@ bool check_tie();
 bool check_rows();
 bool check_cols();
 bool chec_diag();
+bool has_winner();
 
 char GRID[3][3] = 
 {
@@ -53,7 +54,7 @@ int main()
 				game_running = false;
 			}
 
-			if (check_rows() || chec_diag())
+			if (has_winner())
 			{
 				printf("\n");
 				print_grid();
@@ -64,6 +65,7 @@ int main()
 			swap_player();
 		}
 	}
+
 	return 0;
 }
 
@@ -116,6 +118,13 @@ bool check_rows()
 // Checks if there are 3 of the same letter in a column
 bool check_cols()
 {
+	// for every row, check the column
+	for (int i = 0; i < 3; i++)
+	{
+		if (GRID[0][i] != '-' && GRID[0][i] == GRID[1][i] && GRID[1][i] == GRID[2][i])
+			return true;
+	}
+
 	return false;
 }
 
@@ -129,4 +138,9 @@ bool chec_diag()
 		return true;
 
 	return false;
+}
+
+bool has_winner()
+{
+	return check_rows() || check_cols() || chec_diag();
 }
