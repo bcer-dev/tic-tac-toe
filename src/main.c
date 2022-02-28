@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #define X 0
 #define Y 1
@@ -26,7 +27,9 @@ int main()
 
 		print_grid();
 		printf("Player: %c\nPlease enter a row and column: ", CURRENT_PLAYER == X ? 'X' : 'Y');
-		scanf("%i%i", &row, &column);
+		
+		if (scanf("%i%i", &row, &column) < 2)
+			exit(1);
 
 		if (row > 3 || row < 1 || column > 3 || column < 1)
 			continue;
