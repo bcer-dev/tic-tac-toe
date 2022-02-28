@@ -7,7 +7,10 @@
 
 void print_grid();
 void swap_player();
-bool determine_winner();
+bool check_tie();
+bool check_rows();
+bool check_cols();
+bool chec_diag();
 
 char GRID[3][3] = 
 {
@@ -20,8 +23,8 @@ bool CURRENT_PLAYER = X;
 
 int main()
 {
-	bool has_winner = false;
-	while (!has_winner)
+	bool game_running = true;
+	while (game_running)
 	{
 		int row, column;
 
@@ -43,6 +46,21 @@ int main()
 		else
 		{
 			GRID[row - 1][column - 1] = CURRENT_PLAYER == X ? 'X' : 'O';
+
+			if (check_tie())
+			{
+				printf("TIE!\n");
+				game_running = false;
+			}
+
+			if (check_rows() || chec_diag())
+			{
+				printf("\n");
+				print_grid();
+				printf("\nWinner: %c\n", CURRENT_PLAYER == X ? 'X' : 'O');
+				game_running = false;
+			}
+
 			swap_player();
 		}
 	}
@@ -69,4 +87,46 @@ void swap_player()
 	CURRENT_PLAYER = CURRENT_PLAYER == X ? O : X;
 }
 
-// TODO: Add the ability to check for, and determine the winner
+// Ends the game if no spaces are left.
+bool check_tie()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (GRID[i][j] == '-')
+				return false;
+		}
+	}
+	return true;
+}
+
+// Checks if there are 3 of the same letter in a row
+bool check_rows()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (GRID[i][0] != '-' && GRID[i][0] == GRID[i][1] && GRID[i][1] == GRID[i][2])
+			return true;
+	}
+
+	return false;
+}
+
+// Checks if there are 3 of the same letter in a column
+bool check_cols()
+{
+	return false;
+}
+
+// Checks diagonally to see if there is a winner
+bool chec_diag()
+{
+	if (GRID[0][0] != '-' && GRID[0][0] == GRID[1][1] && GRID[1][1] == GRID[2][2])
+		return true;
+
+	else if (GRID[0][2] != '-' && GRID[0][2] == GRID[1][1] && GRID[1][1] == GRID[2][0])
+		return true;
+
+	return false;
+}
