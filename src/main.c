@@ -2,8 +2,10 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define X 0
-#define O 1
+typedef enum 
+{
+	PLAYER_X, PLAYER_O
+} player;
 
 void print_grid();
 void swap_player();
@@ -20,7 +22,7 @@ char GRID[3][3] =
 	{'-', '-', '-'}
 };
 
-bool CURRENT_PLAYER = X;
+player CURRENT_PLAYER = PLAYER_X;
 
 int main()
 {
@@ -31,9 +33,9 @@ int main()
 
 		printf("\n*****************************************\n\n");
 		print_grid();
-		printf("\nPlayer: %c\nPlease enter a row and column: ", CURRENT_PLAYER == X ? 'X' : 'O');
+		printf("\nPlayer: %c\nPlease enter a row and column: ", CURRENT_PLAYER == PLAYER_X ? 'X' : 'O');
 
-		if (scanf("%i%i", &row, &column) < 2)
+		if (scanf("%i%i", &column, &row) < 2)
 			exit(1);
 
 		if (row > 3 || row < 1 || column > 3 || column < 1)
@@ -46,7 +48,7 @@ int main()
 		}
 		else
 		{
-			GRID[row - 1][column - 1] = CURRENT_PLAYER == X ? 'X' : 'O';
+			GRID[row - 1][column - 1] = CURRENT_PLAYER == PLAYER_X ? 'X' : 'O';
 
 			if (check_tie())
 			{
@@ -58,7 +60,7 @@ int main()
 			{
 				printf("\n");
 				print_grid();
-				printf("\nWinner: %c\n", CURRENT_PLAYER == X ? 'X' : 'O');
+				printf("\nWinner: %c\n", CURRENT_PLAYER == PLAYER_X ? 'X' : 'O');
 				game_running = false;
 			}
 
@@ -86,7 +88,7 @@ void print_grid()
 // Switch between X and O
 void swap_player()
 {
-	CURRENT_PLAYER = CURRENT_PLAYER == X ? O : X;
+	CURRENT_PLAYER = CURRENT_PLAYER == PLAYER_X ? PLAYER_O : PLAYER_X;
 }
 
 // Ends the game if no spaces are left.
